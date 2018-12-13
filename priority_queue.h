@@ -20,13 +20,16 @@ enum class Priority {LOW, HIGH};
 
 class QueueElement{
     public: 
+        QueueElement();
         QueueElement(int value, Priority priority);
+        ~QueueElement();
         Priority priority;
         int value;
 };
 
 class PriorityQueue{
     public:
+        PriorityQueue();
         PriorityQueue(QueueType type);
         ~PriorityQueue();
         /* Elementary queue operations */

@@ -4,6 +4,11 @@
 #include "priority_queue.h"
 
 
+QueueElement::QueueElement(int value, Priority priority){
+    this->value = value;
+    this->priority = priority;
+}
+
 PriorityQueue::PriorityQueue(QueueType type){
     this->type = type;
     this->head = 0;
@@ -84,9 +89,4 @@ void PriorityQueue::displayQueue(){
     printf("--TAIL");
     printf("\n");
 
-}
-
-QueueElement::QueueElement(int value, Priority priority){
-    this->value = value;
-    this->priority = priority;
 }

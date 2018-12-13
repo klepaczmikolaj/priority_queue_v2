@@ -11,6 +11,7 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
 #define QUEUE_CAPACITY 10
+#define HIGH_PRI_PROBABILITY 4
 
 #include <mutex>
 #include <thread>
@@ -22,22 +23,21 @@ class QueueElement{
     public: 
         QueueElement();
         QueueElement(int value, Priority priority);
-        ~QueueElement();
+        void randomizeValues();
         Priority priority;
         int value;
 };
 
 class PriorityQueue{
     public:
-        PriorityQueue();
         PriorityQueue(QueueType type);
-        ~PriorityQueue();
         /* Elementary queue operations */
         bool enqueue(QueueElement element);
         bool dequeue(QueueElement *element);
         bool isBufferFull();
         bool isBufferEmpty();
         void displayQueue();
+        int getPriorQuantity();
     
     private:
         std::mutex mutex;

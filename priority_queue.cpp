@@ -1,12 +1,24 @@
 #include <iostream>
 #include <mutex>
-#include <thread>
+#include <cstdlib>
 #include "priority_queue.h"
 
 
 QueueElement::QueueElement(int value, Priority priority){
     this->value = value;
     this->priority = priority;
+}
+
+QueueElement::QueueElement(){
+    this->value = 0;
+    this->priority = Priority::LOW;
+}
+
+void QueueElement::randomizeValues(){
+    std::srand(std::time(nullptr));
+    this->value = std::rand() % 10;
+    std::rand() % HIGH_PRI_PROBABILITY == 0 ? 
+        this->priority = Priority::HIGH : this->priority = Priority::LOW;
 }
 
 PriorityQueue::PriorityQueue(QueueType type){
@@ -89,4 +101,8 @@ void PriorityQueue::displayQueue(){
     printf("--TAIL");
     printf("\n");
 
+}
+
+int PriorityQueue::getPriorQuantity(){
+    return this->priorQuantity;
 }

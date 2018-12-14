@@ -33,25 +33,28 @@ class PriorityQueue{
     public:
         PriorityQueue();
         PriorityQueue(QueueType type);
-        void setType(QueueType type);
+
         /* Elementary queue operations */
-        bool enqueue(QueueElement element);
-        bool dequeue(QueueElement *element);
+        void enqueue(QueueElement element);
+        void dequeue(QueueElement *element);
         bool isBufferFull();
         bool isBufferEmpty();
+
+        /*Other methods*/
+        void setType(QueueType type);
         void displayQueue();
         int getPriorQuantity();
     
     private:
-        std::mutex mutex;
-        std::condition_variable space_in_buffer;
-        std::condition_variable buffer_empty;
         QueueType type;
         QueueElement buffer[QUEUE_CAPACITY];
         int head;
         int tail;
         int size;
         int priorQuantity;
+        std::mutex mutex;
+        std::condition_variable space_in_buffer;
+        std::condition_variable buffer_empty;
 };
 
 #endif

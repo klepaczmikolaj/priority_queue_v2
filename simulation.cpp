@@ -54,8 +54,8 @@ void producerConsumer(PriorityQueue *sourceQueue, PriorityQueue *destinationQueu
     sleep(10);
     while(time(0) - timer <= SIMULATION_TIME){
         QueueElement element;
-        if(sourceQueue->dequeue(&element));
-            destinationQueue->enqueue(element);
+        sourceQueue->dequeue(&element);
+        destinationQueue->enqueue(element);
 
         usleep(randSleep());
     }

@@ -42,7 +42,7 @@ void PriorityQueue::setType(QueueType type){
     this->type = type;
 }
 
-bool PriorityQueue::enqueue(QueueElement element){
+void PriorityQueue::enqueue(QueueElement element){
     std::unique_lock<std::mutex> lock(mutex);
     if(this->size == QUEUE_CAPACITY)
         space_in_buffer.wait(lock);
@@ -64,11 +64,9 @@ bool PriorityQueue::enqueue(QueueElement element){
     //end of critical section
     lock.unlock();
     buffer_empty.notify_all();
-
-    return true;
 }
 
-bool PriorityQueue::dequeue(QueueElement *element){
+void PriorityQueue::dequeue(QueueElement *element){
     std::unique_lock<std::mutex> lock(mutex);
     if(this->size == 0)
         buffer_empty.wait(lock);
@@ -83,8 +81,6 @@ bool PriorityQueue::dequeue(QueueElement *element){
     //end of critical section
     lock.unlock();
     space_in_buffer.notify_all();
-
-    return true;
 }
 
 bool PriorityQueue::isBufferFull(){

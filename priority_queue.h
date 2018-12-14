@@ -15,6 +15,7 @@
 
 #include <mutex>
 #include <thread>
+#include <condition_variable>
 
 enum class QueueType {NORMAL, PRIORITY};
 enum class Priority {LOW, HIGH};
@@ -43,6 +44,8 @@ class PriorityQueue{
     
     private:
         std::mutex mutex;
+        std::condition_variable space_in_buffer;
+        std::condition_variable buffer_empty;
         QueueType type;
         QueueElement buffer[QUEUE_CAPACITY];
         int head;

@@ -1,5 +1,6 @@
 #include <iostream>
 #include <mutex>
+#include <condition_variable>
 #include <cstdlib>
 #include "priority_queue.h"
 
@@ -42,10 +43,9 @@ void PriorityQueue::setType(QueueType type){
 }
 
 bool PriorityQueue::enqueue(QueueElement element){
-    if(isBufferFull())
-        return false;
-    
-    std::lock_guard<std::mutex> guard(this->mutex);
+    std::unique_lock<std::mutex> lock(mutex);
+    if(this->size == QUEUE_CAPACITY)
+        space_in_buffer.wait(lock);
 
     //start of critical section
     if(this->type == QueueType::PRIORITY && element.priority == Priority::HIGH){
@@ -62,16 +62,16 @@ bool PriorityQueue::enqueue(QueueElement element){
         this->priorQuantity++;
 
     //end of critical section
+    lock.unlock();
+    buffer_empty.notify_all();
 
     return true;
 }
 
 bool PriorityQueue::dequeue(QueueElement *element){
-    if(isBufferEmpty()){
-        return false;
-    }
-
-    std::lock_guard<std::mutex> guard(this->mutex);
+    std::unique_lock<std::mutex> lock(mutex);
+    if(this->size == 0)
+        buffer_empty.wait(lock);
 
     //start of critical section
     *element = this->buffer[this->head];
@@ -81,6 +81,8 @@ bool PriorityQueue::dequeue(QueueElement *element){
         this->priorQuantity--;
 
     //end of critical section
+    lock.unlock();
+    space_in_buffer.notify_all();
 
     return true;
 }

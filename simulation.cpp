@@ -88,8 +88,7 @@ void displayTask(PriorityQueue queueList[QUEUE_NUMBER]){
 }
 
 int main(int argc, char const *argv[]){
-    PriorityQueue *queueList = new PriorityQueue[QUEUE_NUMBER];
-
+    PriorityQueue queueList[QUEUE_NUMBER];
     queueList[LEFT_UP].setType(QueueType::PRIORITY);
     queueList[RIGHT_UP].setType(QueueType::PRIORITY);
 
@@ -106,8 +105,6 @@ int main(int argc, char const *argv[]){
     t2.join();
     t3.join();
     t4.join();
-
-    delete queueList;
 
     return 0;
 }

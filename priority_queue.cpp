@@ -21,12 +21,24 @@ void QueueElement::randomizeValues(){
         this->priority = Priority::HIGH : this->priority = Priority::LOW;
 }
 
+PriorityQueue::PriorityQueue(){
+    this->type = QueueType::NORMAL;
+    this->head = 0;
+    this->tail = 0;
+    this->size = 0;
+    this->priorQuantity = 0;
+}
+
 PriorityQueue::PriorityQueue(QueueType type){
     this->type = type;
     this->head = 0;
     this->tail = 0;
     this->size = 0;
     this->priorQuantity = 0;
+}
+
+void PriorityQueue::setType(QueueType type){
+    this->type = type;
 }
 
 bool PriorityQueue::enqueue(QueueElement element){
@@ -36,7 +48,7 @@ bool PriorityQueue::enqueue(QueueElement element){
     std::lock_guard<std::mutex> guard(this->mutex);
 
     //start of critical section
-    if(this->type == QueueType::NORMAL && element.priority == Priority::HIGH){
+    if(this->type == QueueType::PRIORITY && element.priority == Priority::HIGH){
         this->head == 0 ? this->head = QUEUE_CAPACITY-1 : this->head--;
         this->buffer[this->head] = element;
     }

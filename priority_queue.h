@@ -30,7 +30,9 @@ class QueueElement{
 
 class PriorityQueue{
     public:
+        PriorityQueue();
         PriorityQueue(QueueType type);
+        void setType(QueueType type);
         /* Elementary queue operations */
         bool enqueue(QueueElement element);
         bool dequeue(QueueElement *element);
